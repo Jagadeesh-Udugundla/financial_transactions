@@ -188,8 +188,8 @@ function App() {
                       <tr key={item._id}>
                         <td style={{padding:'10px'}}><ModeEditIcon style={{cursor:"pointer"}} onClick={() => handleEditClick(item)}/></td>
                         <td>{item.year}</td>
-                        <td>{item.amount}</td>
                         <td>{item.month}</td>
+                        <td>{item.amount}</td>
                         <td>
                             <DeleteForeverIcon style={{cursor:"pointer"}} onClick={() => handledelete(item._id)}/>
                         </td>

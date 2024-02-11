@@ -79,7 +79,12 @@ function App() {
       );
   
       // console.log(gettingMonth, filteredMonthYear, "kjna");
-      setMonthYear(filteredMonthYear[0].amount);
+      if (filteredMonthYear.length>0){
+        setMonthYear(filteredMonthYear[0].amount)
+      }else{
+        setMonthYear("please Update the Salary")
+      }
+      // setMonthYear(filteredMonthYear[0].amount);
       // console.log(filteredMonthYear, "actual");
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -217,7 +222,7 @@ function App() {
       <div className="dashboard">
       <div className="table-responsive">
 
-      <h1>Current Month Salary:{fmonth ?`${fmonth}`:"Please Update current minth salary"}</h1>
+      <h3>Current Month Salary: <span style={{fontSize:"15px"}}>{fmonth}</span></h3>
       <div id="editable">
       {isEditModalOpen && (
         <EditTransactionModal

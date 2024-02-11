@@ -31,10 +31,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://financialtransactions.onrender.com/login', data);
+      const response = await axios.post('http://localhost:4000/login', data);
       const authToken = response.data;
       Cookies.set('authToken', authToken);
-      console.log(response)
+      console.log(response,"response")
       navigate("/expence")
 
       // setToken(authToken);
