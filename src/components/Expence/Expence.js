@@ -7,6 +7,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditTransactionModal from '../More/EditTransactionModal.js';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from "sweetalert2";
 
 function App() {
     const navigate=useNavigate()
@@ -41,6 +42,12 @@ function App() {
     axios.put(`https://financialtransactions.onrender.com/transactions/${editedTransaction._id}`, editedTransaction)
       .then(() => {
         setTransactions(transactions => transactions.map(t => t._id === editedTransaction._id ? editedTransaction : t));
+        Swal.fire({
+          icon: "success",
+          title: "Edited successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         closeModal();
         // fetchData()
       })
@@ -111,16 +118,32 @@ function App() {
     const id=Cookies.get("authToken")
 
     if (!date || !category || isNaN(amount)) {
-      alert("Please fill in all fields with valid data.");
+      Swal.fire({
+        icon: "error",
+        title: "transaction added failed",
+        text: "Add all the details.",
+      });
+      // alert("Please fill in all fields with valid data.");
       return;
     }
 
     try {
       await axios.post('https://financialtransactions.onrender.com/transactions', {id, date, category, amount: parseFloat(amount) });
+      Swal.fire({
+        icon: "success",
+        title: "Transaction added successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       // After successfully adding the transaction, fetch updated transactions
       fetchTransactions();
       setNewTransaction({ date: '', category: '', amount: '' });
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "transaction added failed",
+        text: "Add all the details.",
+      });
       console.error('Error adding transaction:', error);
     }
   };
@@ -130,9 +153,15 @@ function App() {
   return isNaN(remainingBudget) ? 0 : remainingBudget
   };
   const handledelete=(ids)=>{
-    axios.delete(`https://financialtransactions.onrender.com/${ids}`)
+    axios.delete(`https://financialtransactions.onrender.com/transactions/${ids}`)
       .then(() => {
         setTransactions(prevTransactions => prevTransactions.filter(transaction => transaction._id !== ids));
+        Swal.fire({
+          icon: "success",
+          title: "Deleted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch(error => console.error('Error deleting transaction:', error));
   }
@@ -168,7 +197,7 @@ function App() {
   return (
     <div className="container">
       {/* <ArrowBackIosIcon/> */}
-      <h3 className="current-balance" style={{borderBottom:"10px",borderStyle:"solid",textAlign:"center"}}>{fullMonth}</h3>
+      <h3 className="current-balance" style={{borderBottom:"5px",borderStyle:"solid",textAlign:"center",borderBottomLeftRadius:"7px"}}>{fullMonth}</h3>
         <div style={{display:'flex',justifyContent:"space-between"}}>
             <h1 className="title">Expense Tracker</h1>
             <button onClick={logout} className='logou' style={{height:"30px"}}>Logout</button>

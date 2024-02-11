@@ -7,6 +7,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditTransactionModal from '../More/Editmonth.js';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from "sweetalert2";
 
 function App() {
     const navigate=useNavigate()
@@ -50,7 +51,12 @@ function App() {
     const id=Cookies.get("authToken")
 
     if (!year || !month || isNaN(amount)) {
-      alert("Please fill in all fields with valid data.");
+      Swal.fire({
+        icon: "error",
+        title: "transaction added failed",
+        text: "Add all the details.",
+      });
+      // alert("Please fill in all fields with valid data.");
       return;
     }
 
@@ -58,6 +64,12 @@ function App() {
       await axios.post('https://financialtransactions.onrender.com/month', {id, year,month, amount: parseFloat(amount) });
       // After successfully adding the transaction, fetch updated transactions
       fetchTransactions();
+      Swal.fire({
+        icon: "success",
+        title: "Salary Added successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       setNewTransaction({ year:'',month: '', amount: '' });
     } catch (error) {
       console.error('Error adding transaction:', error);
@@ -72,6 +84,12 @@ function App() {
     axios.delete(`https://financialtransactions.onrender.com/month/${ids}`)
       .then(() => {
         setTransactions(prevTransactions => prevTransactions.filter(transaction => transaction._id !== ids));
+        Swal.fire({
+          icon: "success",
+          title: "Deleted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch(error => console.error('Error deleting transaction:', error));
   }
@@ -92,6 +110,12 @@ function App() {
     axios.put(`https://financialtransactions.onrender.com/month/${editedTransaction._id}`, editedTransaction)
       .then(() => {
         setTransactions(transactions => transactions.map(t => t._id === editedTransaction._id ? editedTransaction : t));
+        Swal.fire({
+          icon: "success",
+          title: "Edited successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         closeModal();
         // fetchData()
       })
@@ -136,7 +160,7 @@ function App() {
 
         <button className="form-button" onClick={addTransaction}>Add Transaction</button>
       </div>
-
+<div style={{marginTop:"20px"}}>
       {isEditModalOpen && (
   <EditTransactionModal
     transaction={transactionToEdit}
@@ -144,6 +168,7 @@ function App() {
     onCancel={closeModal}
   />
 )}
+</div>
 
       <div className="table-responsive">
       <h2 className="dashboard-heading">Recent Transactions</h2>

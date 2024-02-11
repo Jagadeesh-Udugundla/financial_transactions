@@ -36,8 +36,8 @@ const EditTransactionModal = ({ transaction, onSave, onCancel }) => {
           value={editedTransaction.amount || ''}
           onChange={handleInputChange}
         />
-        <button onClick={() => onSave(editedTransaction)}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+        <button onClick={() => onSave(editedTransaction)} className='save'>Save</button>
+        <button onClick={onCancel} className='cancel'>Cancel</button>
       </div>
     </div>
   );

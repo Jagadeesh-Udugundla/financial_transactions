@@ -5,6 +5,8 @@ import { Link, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'
+import Swal from "sweetalert2";
+
 
 const Login = () => {
   const navigate=useNavigate()
@@ -36,10 +38,15 @@ const Login = () => {
       navigate("/expence")
 
       // setToken(authToken);
-    alert("login success")
+    // alert("login success")
     
     } catch (error) {
-      alert(error.response.data);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Give correct email and Password Details!",
+      });
+      // alert(error.response.data);
     } finally {
       setLoading(false);
     }

@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import "./register.css"
+import { useNavigate } from 'react-router-dom'
+import Swal from "sweetalert2";
 
 const Register = () => {
+    const navigate=useNavigate()
     const [data,setData]=useState({
         username:"",
         email:"",
@@ -20,11 +23,31 @@ const Register = () => {
         setLoader(true)
         axios.post("https://financialtransactions.onrender.com/register",data)
         .then(
-            res=>alert(res.data)
+            res=>{
+                if (res.data) {
+                    navigate("/login");
+                    Swal.fire({
+                      icon: "success",
+                      title: "Register successfully!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Registration failed",
+                      text: "There was an issue with the registration process.",
+                    });
+                  }
+            }
         ).catch((err)=>{
             if (err.response){
-                alert(err.response.data)
-            }
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Give All correct Details!",
+                  });
+                }
         }).finally(()=>{
             setLoader(false)
         })

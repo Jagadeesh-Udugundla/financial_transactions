@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditTransactionModal from './EditTransactionModal.js';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from "sweetalert2";
 
 const TransactionFilter = () => {
     const navigate=useNavigate()
@@ -135,6 +136,12 @@ const monthNumberToName = {
     axios.delete(`https://financialtransactions.onrender.com/transactions/${ids}`)
       .then(() => {
         setTransactions(prevTransactions => prevTransactions.filter(transaction => transaction._id !== ids));
+        Swal.fire({
+          icon: "success",
+          title: "Deleted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch(error => console.error('Error deleting transaction:', error));
   }

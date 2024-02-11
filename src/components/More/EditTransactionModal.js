@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./Edit.css"
 
 const EditTransactionModal = ({ transaction, onSave, onCancel }) => {
   const [editedTransaction, setEditedTransaction] = useState({ ...transaction });
@@ -32,8 +33,8 @@ const EditTransactionModal = ({ transaction, onSave, onCancel }) => {
           value={editedTransaction.amount}
           onChange={handleInputChange}
         />
-        <button onClick={() => onSave(editedTransaction)}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+        <button onClick={() => onSave(editedTransaction)} className='save'>Save</button>
+        <button onClick={onCancel} className='cancel'>Cancel</button>
       </div>
     </div>
   );
