@@ -158,6 +158,13 @@ const monthNumberToName = {
       .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
     return isNaN(totalAmount) ? 0 : totalAmount;
   };
+  useEffect(() => {
+    // Check if the user is already logged in
+    const adminUsername = Cookies.get("authToken");
+    if (!adminUsername) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <div className="transaction-filter-container">
@@ -172,11 +179,13 @@ const monthNumberToName = {
         onChange={(e) => setSelectedYear(e.target.value)}
       >
         <option value="">-- Select Year --</option>
-        {uniqueYears.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
+        {uniqueYears
+    .sort((a, b) => b - a) // Sort in descending order
+    .map((year) => (
+      <option key={year} value={year}>
+        {year}
+      </option>
+    ))}
       </select>
 
       <label className="transaction-label" htmlFor="month">
@@ -189,11 +198,13 @@ const monthNumberToName = {
         onChange={(e) => setSelectedMonth(e.target.value)}
       >
         <option value="">-- Select Month --</option>
-        {uniqueMonths.map((month) => (
-          <option key={month} value={month.toString().padStart(2, '0')}>
-            {new Date(2000, month - 1, 1).toLocaleString('default', { month: 'long' })}
-          </option>
-        ))}
+        {uniqueMonths
+    .sort((a, b) => a - b) // Sort the months in ascending order
+    .map((month) => (
+      <option key={month} value={month.toString().padStart(2, '0')}>
+        {new Date(2000, month - 1, 1).toLocaleString('default', { month: 'long' })}
+      </option>
+    ))}
       </select>
 
       <button className="transaction-button" onClick={filterTransactions}>

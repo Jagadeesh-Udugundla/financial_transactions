@@ -141,6 +141,14 @@ function App() {
     navigate("/login")
   }
 
+  const sortedTransactions = [...transactions].sort((a, b) => {
+    if (a.year !== b.year) {
+      return b.year - a.year;
+    } else {
+      return a.month - b.month;
+    }
+  });
+
   return (
     <div className="container">
         <ArrowBackIosIcon style={{cursor:"pointer"}} onClick={()=>navigate("/expence")}  />
@@ -184,17 +192,17 @@ function App() {
                   </thead>
 
                   <tbody style={{textAlign:"center"}}>
-                    {transactions.map((item) => (
-                      <tr key={item._id}>
-                        <td style={{padding:'10px'}}><ModeEditIcon style={{cursor:"pointer"}} onClick={() => handleEditClick(item)}/></td>
-                        <td>{item.year}</td>
-                        <td>{item.month}</td>
-                        <td>{item.amount}</td>
-                        <td>
-                            <DeleteForeverIcon style={{cursor:"pointer"}} onClick={() => handledelete(item._id)}/>
-                        </td>
-                      </tr>
-                    ))}
+                  {sortedTransactions.map((item) => (
+      <tr key={item._id}>
+        <td style={{ padding: '10px' }}><ModeEditIcon style={{ cursor: "pointer" }} onClick={() => handleEditClick(item)} /></td>
+        <td>{item.year}</td>
+        <td>{item.month}</td>
+        <td>{item.amount}</td>
+        <td>
+          <DeleteForeverIcon style={{ cursor: "pointer" }} onClick={() => handledelete(item._id)} />
+        </td>
+      </tr>
+    ))}
                   </tbody>
                 </table>
               </div>

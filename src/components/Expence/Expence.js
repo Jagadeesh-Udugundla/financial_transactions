@@ -197,6 +197,8 @@ function App() {
     Cookies.remove("authToken")
     navigate("/login")
   }
+  const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+
   // console.log(fmonth[0].amount,"fmonth")
 
   return (
@@ -245,17 +247,17 @@ function App() {
           </thead>
 
           <tbody style={{textAlign:"center"}}>
-            {transactions.map((item) => (
-              <tr key={item._id} >
-                <td href="#editable" style={{padding:"10px"}}><ModeEditIcon style={{cursor:"pointer"}} onClick={() => handleEditClick(item)}/></td>
-                <td>{item.date}</td>
-                <td>{item.category}</td>
-                <td>{item.amount}</td>
-                <td>
-                  <DeleteForeverIcon style={{cursor:"pointer"}} onClick={()=>handledelete(item._id)} />
-                </td>
-              </tr>
-            ))}
+          {sortedTransactions.map((item) => (
+      <tr key={item._id}>
+        <td href="#editable" style={{ padding: "10px" }}><ModeEditIcon style={{ cursor: "pointer" }} onClick={() => handleEditClick(item)} /></td>
+        <td>{item.date}</td>
+        <td>{item.category}</td>
+        <td>{item.amount}</td>
+        <td>
+          <DeleteForeverIcon style={{ cursor: "pointer" }} onClick={() => handledelete(item._id)} />
+        </td>
+      </tr>
+    ))}
           </tbody>
         </table>
       </div>
