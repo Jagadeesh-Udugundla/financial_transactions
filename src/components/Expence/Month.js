@@ -129,7 +129,6 @@ function App() {
 
 
   useEffect(() => {
-    // Check if the user is already logged in
     const adminUsername = Cookies.get("authToken");
     if (!adminUsername) {
       navigate("/login");

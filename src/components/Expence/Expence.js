@@ -8,6 +8,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditTransactionModal from '../More/EditTransactionModal.js';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Swal from "sweetalert2";
+import Calculator from './Calculator';
 
 function App() {
     const navigate=useNavigate()
@@ -17,6 +18,11 @@ function App() {
   const [month,setMonth]=useState("")
   const [year,setYear]=useState("")
   const [transactionToEdit, setTransactionToEdit] = useState(null)
+  const [showCalculator, setShowCalculator] = useState(false);
+
+  const toggleCalculator = () => {
+    setShowCalculator((prev) => !prev);
+  };
 
   const [camount,setCamount]=useState("")
   const [newTransaction, setNewTransaction] = useState({
@@ -206,6 +212,8 @@ function App() {
       {/* <ArrowBackIosIcon/> */}
       <h3 className="current-balance" style={{borderBottom:"5px",borderStyle:"solid",textAlign:"center",borderBottomLeftRadius:"7px"}}>{fullMonth}</h3>
         <div style={{display:'flex',justifyContent:"space-between"}}>
+          <button className="calculator-text" onClick={toggleCalculator}>Calculator</button>
+          {showCalculator && <Calculator onClose={toggleCalculator} />}
             <h1 className="title">Expense Tracker</h1>
             <button onClick={logout} className='logou' style={{height:"30px"}}>Logout</button>
         </div>
